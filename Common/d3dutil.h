@@ -3,7 +3,16 @@
 #include <string>
 #include <wrl.h>
 #include <d3d11.h>
+#include <DirectXMath.h>
+#include <d3dcompiler.h>
+#include "d3dx11effect.h"
+
 #pragma comment(lib, "d3d11.lib")
+#if defined(DEBUG) || defined(_DEBUG)
+#pragma comment(lib, "Effects11d.lib")
+#else
+#pragma comment(lib, "Effects11.lib")
+#endif
 
 inline std::wstring ansiToWString(const std::string& str)
 {

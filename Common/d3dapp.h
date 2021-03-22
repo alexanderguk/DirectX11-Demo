@@ -37,6 +37,11 @@ protected:
 	bool initDirect3D();
 
 	void calculateFrameStats();
+	void logAdapters();
+	void logAdapterOutputs(IDXGIAdapter* adapter);
+	void logOutputDisplayModes(IDXGIOutput* output);
+
+	ComPtr<IDXGIFactory> getFactory() const;
 
 protected:
 	HINSTANCE m_appInst;
@@ -64,4 +69,5 @@ protected:
 	int m_clientHeight;
 
 	bool m_is4xMsaaEnabled;
+	bool m_isAltEnterDisabled;
 };

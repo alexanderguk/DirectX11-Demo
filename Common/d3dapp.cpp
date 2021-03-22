@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <windowsx.h>
+#include <vector>
 
 LRESULT CALLBACK CD3DApp::windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -42,8 +43,10 @@ CD3DApp::CD3DApp(HINSTANCE hInstance) :
 	m_d3dDriverType(D3D_DRIVER_TYPE_HARDWARE),
 	m_clientWidth(720),
 	m_clientHeight(480),
-	m_is4xMsaaEnabled(false)
+	m_is4xMsaaEnabled(false),
+	m_isAltEnterDisabled(false)
 {
+	// TODO: Double check if this is necessary
 	ZeroMemory(&m_screenViewport, sizeof(D3D11_VIEWPORT));
 }
 
@@ -230,7 +233,76 @@ LRESULT CD3DApp::handleMessage(UINT msg, WPARAM wParam, LPARAM lParam)
 
 void CD3DApp::onResize()
 {
+	assert(m_d3dDevice);
+	assert(m_d3dImmediateContext);
+	assert(m_swapChain);
 
+	m_renderTargetView.Reset();
+	m_depthStencilView.Reset();
+	m_depthStencilBuffer.Reset();
+
+	ThrowIfFailed(m_swapChain->ResizeBuffers(
+		1,
+		m_clientWidth,
+		m_clientHeight,
+		DXGI_FORMAT_R8G8B8A8_UNORM,
+		0
+	));
+
+	// 5. Create the Render Target View
+
+	ComPtr<ID3D11Texture2D> backBuffer;
+	ThrowIfFailed(m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer)));
+	ThrowIfFailed(m_d3dDevice->CreateRenderTargetView(
+		backBuffer.Get(),
+		nullptr,
+		m_renderTargetView.GetAddressOf()
+	));
+
+	// 6. Create the Depth/Stencil Buffer and View
+
+	D3D11_TEXTURE2D_DESC dsDesc;
+	dsDesc.Width = m_clientWidth;
+	dsDesc.Height = m_clientHeight;
+	dsDesc.MipLevels = 1;
+	dsDesc.ArraySize = 1;
+	dsDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	dsDesc.SampleDesc.Count = m_is4xMsaaEnabled ? 4 : 1;
+	dsDesc.SampleDesc.Quality = m_is4xMsaaEnabled ? (m_4xMsaaQuality - 1) : 0;
+	dsDesc.Usage = D3D11_USAGE_DEFAULT;
+	dsDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	dsDesc.CPUAccessFlags = 0;
+	dsDesc.MiscFlags = 0;
+
+	ThrowIfFailed(m_d3dDevice->CreateTexture2D(
+		&dsDesc,
+		nullptr,
+		m_depthStencilBuffer.GetAddressOf()
+	));
+	ThrowIfFailed(m_d3dDevice->CreateDepthStencilView(
+		m_depthStencilBuffer.Get(),
+		nullptr,
+		m_depthStencilView.GetAddressOf()
+	));
+
+	// 7. Bind the Views to the Output Merger Stage
+
+	m_d3dImmediateContext->OMSetRenderTargets(
+		1,
+		m_renderTargetView.GetAddressOf(),
+		m_depthStencilView.Get()
+	);
+
+	// 8. Set the Viewport
+
+	m_screenViewport.TopLeftX = 0;
+	m_screenViewport.TopLeftY = 0;
+	m_screenViewport.Width = static_cast<float>(m_clientWidth);
+	m_screenViewport.Height = static_cast<float>(m_clientHeight);
+	m_screenViewport.MinDepth = 0.0f;
+	m_screenViewport.MaxDepth = 1.0f;
+
+	m_d3dImmediateContext->RSSetViewports(1, &m_screenViewport);
 }
 
 bool CD3DApp::initMainWindow()
@@ -297,6 +369,10 @@ bool CD3DApp::initDirect3D()
 		return false;
 	}
 
+#ifdef _DEBUG
+	logAdapters();
+#endif
+
 	// 2. Check 4X MSAA Quality Support
 
 	ThrowIfFailed(m_d3dDevice->CheckMultisampleQualityLevels(
@@ -327,78 +403,22 @@ bool CD3DApp::initDirect3D()
 
 	// 4. Create the Swap Chain
 
-	ComPtr<IDXGIDevice> dxgiDevice;
-	ThrowIfFailed(m_d3dDevice->QueryInterface(IID_PPV_ARGS(&dxgiDevice)));
-
-	ComPtr<IDXGIAdapter> dxgiAdapter;
-	ThrowIfFailed(dxgiDevice->GetParent(IID_PPV_ARGS(&dxgiAdapter)));
-
-	ComPtr<IDXGIFactory> dxgiFactory;
-	ThrowIfFailed(dxgiAdapter->GetParent(IID_PPV_ARGS(&dxgiFactory)));
-
+	ComPtr<IDXGIFactory> dxgiFactory = getFactory();
 	ThrowIfFailed(dxgiFactory->CreateSwapChain(
 		m_d3dDevice.Get(),
 		&scDesc,
 		m_swapChain.GetAddressOf()
 	));
 
-	// 5. Create the Render Target View
+	if (m_isAltEnterDisabled)
+	{
+		ThrowIfFailed(dxgiFactory->MakeWindowAssociation(
+			m_mainHwnd,
+			DXGI_MWA_NO_WINDOW_CHANGES
+		));
+	}
 
-	ComPtr<ID3D11Texture2D> backBuffer;
-	ThrowIfFailed(m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer)));
-
-	ThrowIfFailed(m_d3dDevice->CreateRenderTargetView(
-		backBuffer.Get(),
-		nullptr,
-		m_renderTargetView.GetAddressOf()
-	));
-
-	// 6. Create the Depth/Stencil Buffer and View
-
-	D3D11_TEXTURE2D_DESC dsDesc;
-	dsDesc.Width = m_clientWidth;
-	dsDesc.Height = m_clientHeight;
-	dsDesc.MipLevels = 1;
-	dsDesc.ArraySize = 1;
-	dsDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	dsDesc.SampleDesc.Count = m_is4xMsaaEnabled ? 4 : 1;
-	dsDesc.SampleDesc.Quality = m_is4xMsaaEnabled ? (m_4xMsaaQuality - 1) : 0;
-	dsDesc.Usage = D3D11_USAGE_DEFAULT;
-	dsDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	dsDesc.CPUAccessFlags = 0;
-	dsDesc.MiscFlags = 0;
-
-	ThrowIfFailed(m_d3dDevice->CreateTexture2D(
-		&dsDesc,
-		nullptr,
-		m_depthStencilBuffer.GetAddressOf()
-	));
-
-	ThrowIfFailed(m_d3dDevice->CreateDepthStencilView(
-		m_depthStencilBuffer.Get(),
-		nullptr,
-		m_depthStencilView.GetAddressOf()
-	));
-
-	// 7. Bind the Views to the Output Merger Stage
-
-	m_d3dImmediateContext->OMSetRenderTargets(
-		1,
-		m_renderTargetView.GetAddressOf(),
-		m_depthStencilView.Get()
-	);
-
-	// 8. Set the Viewport
-
-	D3D11_VIEWPORT vp;
-	vp.TopLeftX = 0.0f;
-	vp.TopLeftY = 0.0f;
-	vp.Width = static_cast<float>(m_clientWidth);
-	vp.Height = static_cast<float>(m_clientHeight);
-	vp.MinDepth = 0.0f;
-	vp.MaxDepth = 1.0f;
-
-	m_d3dImmediateContext->RSSetViewports(1, &vp);
+	onResize();
 
 	return true;
 }
@@ -427,4 +447,99 @@ void CD3DApp::calculateFrameStats()
 		frameCnt = 0;
 		timeElapsed += 1.0f;
 	}
+}
+
+void CD3DApp::logAdapters()
+{
+	ComPtr<IDXGIFactory> dxgiFactory = getFactory();
+
+	UINT i = 0;
+	ComPtr<IDXGIAdapter> adapter;
+	std::vector<ComPtr<IDXGIAdapter>> adapterList;
+	while (dxgiFactory->EnumAdapters(i, adapter.GetAddressOf()) != DXGI_ERROR_NOT_FOUND)
+	{
+		DXGI_ADAPTER_DESC desc;
+		adapter->GetDesc(&desc);
+
+		std::wstring text = L"***Adapter: ";
+		text += desc.Description;
+		text += L"\n";
+
+		OutputDebugString(text.c_str());
+
+		adapterList.push_back(adapter);
+		i++;
+	}
+
+	for (const auto& adapter : adapterList)
+	{
+		logAdapterOutputs(adapter.Get());
+	}
+}
+
+void CD3DApp::logAdapterOutputs(IDXGIAdapter* adapter)
+{
+	UINT i = 0;
+	ComPtr<IDXGIOutput> output;
+	while (adapter->EnumOutputs(i, output.GetAddressOf()) != DXGI_ERROR_NOT_FOUND)
+	{
+		DXGI_OUTPUT_DESC desc;
+		output->GetDesc(&desc);
+
+		std::wstring text = L"***Output: ";
+		text += desc.DeviceName;
+		text += L"\n";
+
+		OutputDebugString(text.c_str());
+
+		logOutputDisplayModes(output.Get());
+		i++;
+	}
+}
+
+void CD3DApp::logOutputDisplayModes(IDXGIOutput* output)
+{
+	UINT num = 0;
+	output->GetDisplayModeList(
+		DXGI_FORMAT_R8G8B8A8_UNORM,
+		0,
+		&num,
+		nullptr
+	);
+
+	std::vector<DXGI_MODE_DESC> modeList(num);
+	output->GetDisplayModeList(
+		DXGI_FORMAT_B8G8R8A8_UNORM,
+		0,
+		&num,
+		modeList.data()
+	);
+
+	for (const auto& mode : modeList)
+	{
+		UINT n = mode.RefreshRate.Numerator;
+		UINT d = mode.RefreshRate.Denominator;
+
+		std::wstring text =
+			L"Width: " + std::to_wstring(mode.Width) + L" " +
+			L"Height: " + std::to_wstring(mode.Height) + L" " +
+			L"Refresh: " + std::to_wstring(n) + L"/" + std::to_wstring(d) + L"\n";
+
+		OutputDebugString(text.c_str());
+
+	}
+}
+
+ComPtr<IDXGIFactory> CD3DApp::getFactory() const
+{
+	ComPtr<IDXGIDevice> dxgiDevice;
+	ThrowIfFailed(m_d3dDevice->QueryInterface(IID_PPV_ARGS(&dxgiDevice)));
+
+	ComPtr<IDXGIAdapter> dxgiAdapter;
+	ThrowIfFailed(dxgiDevice->GetParent(IID_PPV_ARGS(&dxgiAdapter)));
+
+	ComPtr<IDXGIFactory> dxgiFactory;
+	ThrowIfFailed(dxgiAdapter->GetParent(IID_PPV_ARGS(&dxgiFactory)));
+
+	return dxgiFactory;
 }

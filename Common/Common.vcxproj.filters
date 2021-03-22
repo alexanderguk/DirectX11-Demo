@@ -27,6 +27,9 @@
     <ClCompile Include="gametimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mathhelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mainwindow.h">
@@ -40,6 +43,12 @@
     </ClInclude>
     <ClInclude Include="gametimer.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="d3dx11effect.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mathhelper.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

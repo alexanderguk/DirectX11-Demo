@@ -23,12 +23,15 @@
     <ClCompile Include="d3dutil.cpp" />
     <ClCompile Include="gametimer.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="mathhelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3dapp.h" />
     <ClInclude Include="d3dutil.h" />
+    <ClInclude Include="d3dx11effect.h" />
     <ClInclude Include="gametimer.h" />
     <ClInclude Include="mainwindow.h" />
+    <ClInclude Include="mathhelper.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
