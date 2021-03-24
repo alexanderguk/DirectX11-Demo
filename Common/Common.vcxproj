@@ -22,6 +22,7 @@
     <ClCompile Include="d3dapp.cpp" />
     <ClCompile Include="d3dutil.cpp" />
     <ClCompile Include="gametimer.cpp" />
+    <ClCompile Include="geometrygenerator.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="mathhelper.cpp" />
   </ItemGroup>
@@ -30,6 +31,7 @@
     <ClInclude Include="d3dutil.h" />
     <ClInclude Include="d3dx11effect.h" />
     <ClInclude Include="gametimer.h" />
+    <ClInclude Include="geometrygenerator.h" />
     <ClInclude Include="mainwindow.h" />
     <ClInclude Include="mathhelper.h" />
   </ItemGroup>
