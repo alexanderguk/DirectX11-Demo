@@ -15,40 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="d3dapp.cpp">
+    <ClInclude Include="shapesapp.h">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="d3dutil.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gametimer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mathhelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="geometrygenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="d3dapp.h">
+    <ClCompile Include="shapesapp.cpp">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="d3dutil.h">
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gametimer.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="d3dx11effect.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mathhelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="geometrygenerator.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
+    </ClCompile>
   </ItemGroup>
 </Project>

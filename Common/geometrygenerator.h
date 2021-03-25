@@ -42,4 +42,33 @@ namespace GeometryGenerator
 		UINT n,
 		SMeshData& meshData
 	);
+
+	void createCylinder(
+		float bottomRadius,
+		float topRadius,
+		float height,
+		UINT sliceCount,
+		UINT stackCount,
+		SMeshData& meshData
+	);
+
+	void createBox(
+		float width,
+		float height,
+		float depth,
+		SMeshData& meshData
+	);
+
+	void createSphere(
+		float radius,
+		UINT sliceCount,
+		UINT stackCount,
+		SMeshData& meshData
+	);
+
+	void createGeosphere(
+		float radius,
+		UINT numSubdivisions,
+		SMeshData& meshData
+	);
 }
