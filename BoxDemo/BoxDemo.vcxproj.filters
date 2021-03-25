@@ -32,9 +32,6 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="FX\color.fx">
-      <Filter>FX</Filter>
-    </FxCompile>
-    <FxCompile Include="..\HillsDemo\FX\color.fx">
       <Filter>Resource Files</Filter>
     </FxCompile>
   </ItemGroup>

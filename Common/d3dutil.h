@@ -14,6 +14,16 @@
 #pragma comment(lib, "Effects11.lib")
 #endif
 
+inline UINT argbToAbgr(UINT argb)
+{
+	BYTE A = (argb >> 24) & 0xff;
+	BYTE R = (argb >> 16) & 0xff;
+	BYTE G = (argb >> 8) & 0xff;
+	BYTE B = (argb >> 0) & 0xff;
+
+	return (A << 24) | (B << 16) | (G << 8) | (R << 0);
+}
+
 inline std::wstring ansiToWString(const std::string& str)
 {
 	WCHAR buffer[512];

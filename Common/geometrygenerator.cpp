@@ -396,7 +396,7 @@ void GeometryGenerator::createSphere(float radius, UINT sliceCount, UINT stackCo
 	{
 		meshData.m_indices.push_back(southPoleIndex);
 		meshData.m_indices.push_back(baseIndex + i);
-		meshData.m_indices.push_back(baseIndex + i - 1);
+		meshData.m_indices.push_back(baseIndex + i + 1);
 	}
 }
 
@@ -447,9 +447,9 @@ void subdivide(SMeshData& meshData)
 		meshData.m_indices.push_back(i * 6 + 4);
 		meshData.m_indices.push_back(i * 6 + 5);
 
-		meshData.m_indices.push_back(i * 6 + 3);
-		meshData.m_indices.push_back(i * 6 + 4);
 		meshData.m_indices.push_back(i * 6 + 5);
+		meshData.m_indices.push_back(i * 6 + 4);
+		meshData.m_indices.push_back(i * 6 + 2);
 
 		meshData.m_indices.push_back(i * 6 + 3);
 		meshData.m_indices.push_back(i * 6 + 1);
@@ -466,7 +466,7 @@ void GeometryGenerator::createGeosphere(float radius, UINT numSubdivisions, SMes
 
 	XMFLOAT3 pos[12] = {
 		XMFLOAT3(-X, 0.0f, Z), XMFLOAT3(X, 0.0f, Z),
-		XMFLOAT3(X, 0.0f, -Z), XMFLOAT3(X, 0.0f, -Z),
+		XMFLOAT3(-X, 0.0f, -Z), XMFLOAT3(X, 0.0f, -Z),
 		XMFLOAT3(0.0f, Z, X), XMFLOAT3(0.0f, Z, -X),
 		XMFLOAT3(0.0f, -Z, X), XMFLOAT3(0.0f, -Z, -X),
 		XMFLOAT3(Z, X, 0.0f), XMFLOAT3(-Z, X, 0.0f),
