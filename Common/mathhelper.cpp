@@ -1,8 +1,20 @@
 ﻿#include "mathhelper.h"
 
+#include <windows.h>
 #include <DirectXMath.h>
 
 using namespace DirectX;
+
+
+float MathHelper::randF()
+{
+	return (float)(rand()) / (float)RAND_MAX;
+}
+
+float MathHelper::randF(float a, float b)
+{
+	return a + randF() * (b - a);
+}
 
 float MathHelper::angleFromXY(float x, float y)
 {

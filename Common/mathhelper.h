@@ -4,6 +4,10 @@
 
 namespace MathHelper
 {
+	float randF();
+
+	float randF(float a, float b);
+
 	template<class T>
 	T min(const T& a, const T& b)
 	{
