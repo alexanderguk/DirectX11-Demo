@@ -19,6 +19,8 @@ public:
 
 	const XMFLOAT3& operator[](int i) const;
 
+	const XMFLOAT3& getNormal(int i) const;
+
 	void initialize(UINT m, UINT n, float dx, float dt, float speed, float damping);
 	void update(float dt);
 	void disturb(UINT i, UINT j, float magnitude);
@@ -39,4 +41,5 @@ private:
 
 	std::vector<XMFLOAT3> m_prevSolution;
 	std::vector<XMFLOAT3> m_currSolution;
+	std::vector<XMFLOAT3> m_normals;
 };

@@ -30,6 +30,12 @@
     <ClCompile Include="geometrygenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="lighthelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="waves.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3dapp.h">
@@ -48,6 +54,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="geometrygenerator.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lighthelper.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="waves.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

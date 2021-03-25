@@ -44,6 +44,11 @@ const DirectX::XMFLOAT3& CWaves::operator[](int i) const
 	return m_currSolution[i];
 }
 
+const DirectX::XMFLOAT3& CWaves::getNormal(int i) const
+{
+	return m_normals[i];
+}
+
 void CWaves::initialize(UINT m, UINT n, float dx, float dt, float speed, float damping)
 {
 	m_numRows = m;
@@ -63,6 +68,7 @@ void CWaves::initialize(UINT m, UINT n, float dx, float dt, float speed, float d
 
 	m_prevSolution.resize(m * n);
 	m_currSolution.resize(m * n);
+	m_normals.resize(m * n);
 
 	const float halfWidth = (n - 1) * dx * 0.5f;
 	const float halfDepth = (m - 1) * dx * 0.5f;
@@ -75,6 +81,7 @@ void CWaves::initialize(UINT m, UINT n, float dx, float dt, float speed, float d
 
 			m_prevSolution[i * n + j] = XMFLOAT3(x, 0.0f, z);
 			m_currSolution[i * n + j] = XMFLOAT3(x, 0.0f, z);
+			m_normals[i * n + j] = XMFLOAT3(0.0f, 1.0f, 0.0f);
 		}
 	}
 }
@@ -106,6 +113,25 @@ void CWaves::update(float dt)
 		std::swap(m_prevSolution, m_currSolution);
 
 		t = 0.0f;
+
+		for (UINT i = 1; i < m_numRows - 1; ++i)
+		{
+			for (UINT j = 1; j < m_numCols - 1; ++j)
+			{
+				const float l = m_currSolution[i * m_numCols + j - 1].y;
+				const float r = m_currSolution[i * m_numCols + j + 1].y;
+				const float t = m_currSolution[(i - 1) * m_numCols + j].y;
+				const float b = m_currSolution[(i + 1) * m_numCols + j].y;
+				m_normals[i * m_numCols + j].x = -r + l;
+				m_normals[i * m_numCols + j].y = 2.0f * m_spatialStep;
+				m_normals[i * m_numCols + j].z = b - t;
+
+				XMVECTOR n = XMVector3Normalize(XMLoadFloat3(
+					&m_normals[i * m_numCols + j]
+				));
+				XMStoreFloat3(&m_normals[i * m_numCols + j], n);
+			}
+		}
 	}
 }
 

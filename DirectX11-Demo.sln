@@ -32,6 +32,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkullDemo", "SkullDemo\Skul
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WaveDemo", "WaveDemo\WaveDemo.vcxproj", "{D3F0F227-839F-4230-95B0-69B9A19B030A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LightingDemo", "LightingDemo\LightingDemo.vcxproj", "{B75D3CA1-647B-4159-B411-DD1049DC86C2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{513FCD34-B8D4-4261-A5D6-8C6DEC2CED12} = {513FCD34-B8D4-4261-A5D6-8C6DEC2CED12}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -96,6 +101,14 @@ Global
 		{D3F0F227-839F-4230-95B0-69B9A19B030A}.Release|x64.Build.0 = Release|x64
 		{D3F0F227-839F-4230-95B0-69B9A19B030A}.Release|x86.ActiveCfg = Release|Win32
 		{D3F0F227-839F-4230-95B0-69B9A19B030A}.Release|x86.Build.0 = Release|Win32
+		{B75D3CA1-647B-4159-B411-DD1049DC86C2}.Debug|x64.ActiveCfg = Debug|x64
+		{B75D3CA1-647B-4159-B411-DD1049DC86C2}.Debug|x64.Build.0 = Debug|x64
+		{B75D3CA1-647B-4159-B411-DD1049DC86C2}.Debug|x86.ActiveCfg = Debug|Win32
+		{B75D3CA1-647B-4159-B411-DD1049DC86C2}.Debug|x86.Build.0 = Debug|Win32
+		{B75D3CA1-647B-4159-B411-DD1049DC86C2}.Release|x64.ActiveCfg = Release|x64
+		{B75D3CA1-647B-4159-B411-DD1049DC86C2}.Release|x64.Build.0 = Release|x64
+		{B75D3CA1-647B-4159-B411-DD1049DC86C2}.Release|x86.ActiveCfg = Release|Win32
+		{B75D3CA1-647B-4159-B411-DD1049DC86C2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

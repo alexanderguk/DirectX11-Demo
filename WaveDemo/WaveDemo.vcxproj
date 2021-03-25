@@ -149,11 +149,9 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="waveapp.cpp" />
-    <ClCompile Include="waves.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="waveapp.h" />
-    <ClInclude Include="waves.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="FX\color.fx">

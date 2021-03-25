@@ -36,3 +36,12 @@ float MathHelper::angleFromXY(float x, float y)
 
 	return theta;
 }
+
+DirectX::XMMATRIX MathHelper::inverseTranspose(CXMMATRIX M)
+{
+	XMMATRIX A = M;
+	A.r[3] = XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f);
+
+	XMVECTOR det = XMMatrixDeterminant(A);
+	return XMMatrixTranspose(XMMatrixInverse(&det, A));
+}
