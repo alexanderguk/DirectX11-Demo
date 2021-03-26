@@ -96,7 +96,7 @@ float4 PS(SVertexOut pIn, uniform int g_lightCount, uniform bool g_useTexture) :
 		litColor = texColor * (ambient + diffuse) + specular;
 	}
 
-	litColor.a = g_material.m_diffuse.a;
+	litColor.a = g_material.m_diffuse.a * texColor.a;
 
 	return litColor;
 }
