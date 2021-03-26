@@ -289,10 +289,37 @@ fxgroup
                 lt r1.w, l(0.000000), r0.w
                 
                 #line 71
-                mul r6.xyz, r6.xyzx, r0.wwww
-                mul r6.xyz, r9.xyzx, r6.xyzx  // r6.x <- diffuse.x; r6.y <- diffuse.y; r6.z <- diffuse.z
+                ge r2.w, l(0.000000), r0.w
+                if_nz r2.w
                 
                 #line 73
+                  mov r2.w, l(0.400000)  // r2.w <- diffuseFactor
+                
+                #line 74
+                else   // Prior locations: r0.w <- diffuseFactor
+                
+                #line 75
+                  ge r0.w, l(0.500000), r0.w
+                  if_nz r0.w
+                
+                #line 77
+                    mov r2.w, l(0.600000)  // r2.w <- diffuseFactor
+                
+                #line 78
+                  else 
+                
+                #line 81
+                    mov r2.w, l(1.000000)  // r2.w <- diffuseFactor
+                
+                #line 82
+                  endif 
+                endif 
+                
+                #line 83
+                mul r6.xyz, r6.xyzx, r2.wwww
+                mul r6.xyz, r9.xyzx, r6.xyzx  // r6.x <- diffuse.x; r6.y <- diffuse.y; r6.z <- diffuse.z
+                
+                #line 85
                 mov r8.xyz, -r11.xyzx
                 dp3 r0.w, r8.xyzx, r0.xyzx
                 add r0.w, r0.w, r0.w
@@ -300,18 +327,45 @@ fxgroup
                 mul r9.xyz, r0.wwww, r0.xyzx
                 add r8.xyz, r8.xyzx, r9.xyzx  // r8.x <- v.x; r8.y <- v.y; r8.z <- v.z
                 
-                #line 74
+                #line 86
                 dp3 r0.w, r8.xyzx, r1.xyzx
                 max r0.w, r0.w, l(0.000000)
                 log r0.w, r0.w
                 mul r0.w, r0.w, r7.w
                 exp r0.w, r0.w  // r0.w <- specFactor
                 
-                #line 75
-                mul r7.xyz, r7.xyzx, r0.wwww
+                #line 87
+                ge r2.w, l(0.100000), r0.w
+                if_nz r2.w
+                
+                #line 89
+                  mov r2.w, l(0)  // r2.w <- specFactor
+                
+                #line 90
+                else   // Prior locations: r0.w <- specFactor
+                
+                #line 91
+                  ge r0.w, l(0.800000), r0.w
+                  if_nz r0.w
+                
+                #line 93
+                    mov r2.w, l(0.500000)  // r2.w <- specFactor
+                
+                #line 94
+                  else 
+                
+                #line 97
+                    mov r2.w, l(0.800000)  // r2.w <- specFactor
+                
+                #line 98
+                  endif 
+                endif 
+                
+                #line 99
+                mul r7.xyz, r7.xyzx, r2.wwww
                 mul r7.xyz, r10.xyzx, r7.xyzx  // r7.x <- specular.x; r7.y <- specular.y; r7.z <- specular.z
                 
-                #line 76
+                #line 100
                 movc r6.xyz, r1.wwww, r6.xyzx, r12.xyzx
                 movc r7.xyz, r1.wwww, r7.xyzx, r13.xyzx
                 
@@ -344,44 +398,71 @@ fxgroup
                 mov r0.xyz, r0.xyzx
                 mov r1.xyz, r1.xyzx
                 
-                #line 90 "D:\Projects\DirectX\DirectX11-Demo\LightingDemo\FX\lighthelper.h"
+                #line 114 "D:\Projects\DirectX\DirectX11-Demo\LightingDemo\FX\lighthelper.h"
                 mov r14.xyz, l(0,0,0,0)  // r14.x <- ambient.x; r14.y <- ambient.y; r14.z <- ambient.z
                 
-                #line 91
+                #line 115
                 mov r15.xyz, l(0,0,0,0)  // r15.x <- diffuse.x; r15.y <- diffuse.y; r15.z <- diffuse.z
                 
-                #line 92
+                #line 116
                 mov r16.xyz, l(0,0,0,0)  // r16.x <- specular.x; r16.y <- specular.y; r16.z <- specular.z
                 
-                #line 94
+                #line 118
                 mov r13.xyz, -r13.xyzx
                 add r11.xyz, r11.xyzx, r13.xyzx  // r11.x <- lightVec.x; r11.y <- lightVec.y; r11.z <- lightVec.z
                 
-                #line 96
+                #line 120
                 dp3 r1.w, r11.xyzx, r11.xyzx
                 sqrt r13.y, r1.w  // r13.y <- d
                 
-                #line 97
+                #line 121
                 lt r0.w, r0.w, r13.y
                 
-                #line 102
+                #line 126
                 if_z r0.w
                   div r11.xyz, r11.xyzx, r13.yyyy
                 
-                #line 104
+                #line 128
                   mul r14.xyz, r5.xyzx, r8.xyzx
                 
-                #line 106
+                #line 130
                   dp3 r0.w, r11.xyzx, r0.xyzx  // r0.w <- diffuseFactor
                 
-                #line 109
+                #line 133
                   lt r1.w, l(0.000000), r0.w
                 
-                #line 111
-                  mul r5.xyz, r6.xyzx, r0.wwww
+                #line 135
+                  ge r2.w, l(0.000000), r0.w
+                  if_nz r2.w
+                
+                #line 137
+                    mov r2.w, l(0.400000)  // r2.w <- diffuseFactor
+                
+                #line 138
+                  else   // Prior locations: r0.w <- diffuseFactor
+                
+                #line 139
+                    ge r0.w, l(0.500000), r0.w
+                    if_nz r0.w
+                
+                #line 141
+                      mov r2.w, l(0.600000)  // r2.w <- diffuseFactor
+                
+                #line 142
+                    else 
+                
+                #line 145
+                      mov r2.w, l(1.000000)  // r2.w <- diffuseFactor
+                
+                #line 146
+                    endif 
+                  endif 
+                
+                #line 147
+                  mul r5.xyz, r6.xyzx, r2.wwww
                   mul r5.xyz, r9.xyzx, r5.xyzx  // r5.x <- diffuse.x; r5.y <- diffuse.y; r5.z <- diffuse.z
                 
-                #line 113
+                #line 149
                   mov r6.xyz, -r11.xyzx
                   dp3 r0.w, r6.xyzx, r0.xyzx
                   add r0.w, r0.w, r0.w
@@ -389,31 +470,58 @@ fxgroup
                   mul r8.xyz, r0.wwww, r0.xyzx
                   add r6.xyz, r6.xyzx, r8.xyzx  // r6.x <- v.x; r6.y <- v.y; r6.z <- v.z
                 
-                #line 114
+                #line 150
                   dp3 r0.w, r6.xyzx, r1.xyzx
                   max r0.w, r0.w, l(0.000000)
                   log r0.w, r0.w
                   mul r0.w, r0.w, r7.w
                   exp r0.w, r0.w  // r0.w <- specFactor
                 
-                #line 115
-                  mul r6.xyz, r7.xyzx, r0.wwww
+                #line 151
+                  ge r2.w, l(0.100000), r0.w
+                  if_nz r2.w
+                
+                #line 153
+                    mov r2.w, l(0)  // r2.w <- specFactor
+                
+                #line 154
+                  else   // Prior locations: r0.w <- specFactor
+                
+                #line 155
+                    ge r0.w, l(0.800000), r0.w
+                    if_nz r0.w
+                
+                #line 157
+                      mov r2.w, l(0.500000)  // r2.w <- specFactor
+                
+                #line 158
+                    else 
+                
+                #line 161
+                      mov r2.w, l(0.800000)  // r2.w <- specFactor
+                
+                #line 162
+                    endif 
+                  endif 
+                
+                #line 163
+                  mul r6.xyz, r7.xyzx, r2.wwww
                   mul r6.xyz, r10.xyzx, r6.xyzx  // r6.x <- specular.x; r6.y <- specular.y; r6.z <- specular.z
                 
-                #line 116
+                #line 164
                   movc r5.xyz, r1.wwww, r5.xyzx, r15.xyzx
                   movc r6.xyz, r1.wwww, r6.xyzx, r16.xyzx
                 
-                #line 118
+                #line 166
                   mul r13.z, r13.y, r13.y
                   mov r13.x, l(1.000000)
                   dp3 r0.w, r12.xyzx, r13.xyzx
                   div r0.w, l(1.000000), r0.w  // r0.w <- attenuation
                 
-                #line 119
+                #line 167
                   mul r15.xyz, r0.wwww, r5.xyzx  // r15.x <- diffuse.x; r15.y <- diffuse.y; r15.z <- diffuse.z
                 
-                #line 120
+                #line 168
                   mul r16.xyz, r0.wwww, r6.xyzx  // r16.x <- specular.x; r16.y <- specular.y; r16.z <- specular.z
                 endif 
                 
@@ -448,44 +556,71 @@ fxgroup
                 mov r0.xyz, r0.xyzx
                 mov r1.xyz, r1.xyzx
                 
-                #line 134 "D:\Projects\DirectX\DirectX11-Demo\LightingDemo\FX\lighthelper.h"
+                #line 182 "D:\Projects\DirectX\DirectX11-Demo\LightingDemo\FX\lighthelper.h"
                 mov r15.xyz, l(0,0,0,0)  // r15.x <- ambient.x; r15.y <- ambient.y; r15.z <- ambient.z
                 
-                #line 135
+                #line 183
                 mov r16.xyz, l(0,0,0,0)  // r16.x <- diffuse.x; r16.y <- diffuse.y; r16.z <- diffuse.z
                 
-                #line 136
+                #line 184
                 mov r17.xyz, l(0,0,0,0)  // r17.x <- specular.x; r17.y <- specular.y; r17.z <- specular.z
                 
-                #line 138
+                #line 186
                 mov r14.xyz, -r14.xyzx
                 add r11.xyz, r11.xyzx, r14.xyzx  // r11.x <- lightVec.x; r11.y <- lightVec.y; r11.z <- lightVec.z
                 
-                #line 140
+                #line 188
                 dp3 r2.w, r11.xyzx, r11.xyzx
                 sqrt r14.y, r2.w  // r14.y <- d
                 
-                #line 141
+                #line 189
                 lt r0.w, r0.w, r14.y
                 
-                #line 146
+                #line 194
                 if_z r0.w
                   div r11.xyz, r11.xyzx, r14.yyyy
                 
-                #line 148
+                #line 196
                   mul r5.xyz, r5.xyzx, r8.xyzx  // r5.x <- ambient.x; r5.y <- ambient.y; r5.z <- ambient.z
                 
-                #line 150
+                #line 198
                   dp3 r0.w, r11.xyzx, r0.xyzx  // r0.w <- diffuseFactor
                 
-                #line 153
+                #line 201
                   lt r2.w, l(0.000000), r0.w
                 
-                #line 155
-                  mul r6.xyz, r6.xyzx, r0.wwww
+                #line 203
+                  ge r3.w, l(0.000000), r0.w
+                  if_nz r3.w
+                
+                #line 205
+                    mov r3.w, l(0.400000)  // r3.w <- diffuseFactor
+                
+                #line 206
+                  else   // Prior locations: r0.w <- diffuseFactor
+                
+                #line 207
+                    ge r0.w, l(0.500000), r0.w
+                    if_nz r0.w
+                
+                #line 209
+                      mov r3.w, l(0.600000)  // r3.w <- diffuseFactor
+                
+                #line 210
+                    else 
+                
+                #line 213
+                      mov r3.w, l(1.000000)  // r3.w <- diffuseFactor
+                
+                #line 214
+                    endif 
+                  endif 
+                
+                #line 215
+                  mul r6.xyz, r6.xyzx, r3.wwww
                   mul r6.xyz, r9.xyzx, r6.xyzx  // r6.x <- diffuse.x; r6.y <- diffuse.y; r6.z <- diffuse.z
                 
-                #line 157
+                #line 217
                   mov r8.xyz, -r11.xyzx
                   dp3 r0.w, r8.xyzx, r0.xyzx
                   add r0.w, r0.w, r0.w
@@ -493,22 +628,49 @@ fxgroup
                   mul r0.xyz, r0.wwww, r0.xyzx
                   add r0.xyz, r8.xyzx, r0.xyzx  // r0.x <- v.x; r0.y <- v.y; r0.z <- v.z
                 
-                #line 158
+                #line 218
                   dp3 r0.x, r0.xyzx, r1.xyzx
                   max r0.x, r0.x, l(0.000000)
                   log r0.x, r0.x
                   mul r0.x, r0.x, r7.w
                   exp r0.x, r0.x  // r0.x <- specFactor
                 
-                #line 159
-                  mul r0.xyz, r7.xyzx, r0.xxxx
+                #line 219
+                  ge r0.y, l(0.100000), r0.x
+                  if_nz r0.y
+                
+                #line 221
+                    mov r0.y, l(0)  // r0.y <- specFactor
+                
+                #line 222
+                  else   // Prior locations: r0.x <- specFactor
+                
+                #line 223
+                    ge r0.x, l(0.800000), r0.x
+                    if_nz r0.x
+                
+                #line 225
+                      mov r0.y, l(0.500000)  // r0.y <- specFactor
+                
+                #line 226
+                    else 
+                
+                #line 229
+                      mov r0.y, l(0.800000)  // r0.y <- specFactor
+                
+                #line 230
+                    endif 
+                  endif 
+                
+                #line 231
+                  mul r0.xyz, r7.xyzx, r0.yyyy
                   mul r0.xyz, r10.xyzx, r0.xyzx  // r0.x <- specular.x; r0.y <- specular.y; r0.z <- specular.z
                 
-                #line 160
+                #line 232
                   movc r1.xyz, r2.wwww, r6.xyzx, r16.xyzx  // r1.x <- diffuse.x; r1.y <- diffuse.y; r1.z <- diffuse.z
                   movc r0.xyz, r2.wwww, r0.xyzx, r17.xyzx
                 
-                #line 162
+                #line 234
                   mov r6.xyz, -r11.xyzx
                   dp3 r0.w, r6.xyzx, r12.xyzx
                   max r0.w, r0.w, l(0.000000)
@@ -516,19 +678,19 @@ fxgroup
                   mul r0.w, r0.w, r1.w
                   exp r0.w, r0.w  // r0.w <- spot
                 
-                #line 163
+                #line 235
                   mul r15.xyz, r0.wwww, r5.xyzx  // r15.x <- ambient.x; r15.y <- ambient.y; r15.z <- ambient.z
                 
-                #line 165
+                #line 237
                   mul r14.z, r14.y, r14.y
                   mov r14.x, l(1.000000)
                   dp3 r1.w, r13.xyzx, r14.xyzx
                   div r0.w, r0.w, r1.w  // r0.w <- attenuation
                 
-                #line 166
+                #line 238
                   mul r16.xyz, r0.wwww, r1.xyzx  // r16.x <- diffuse.x; r16.y <- diffuse.y; r16.z <- diffuse.z
                 
-                #line 167
+                #line 239
                   mul r17.xyz, r0.wwww, r0.xyzx  // r17.x <- specular.x; r17.y <- specular.y; r17.z <- specular.z
                 endif 
                 
@@ -557,7 +719,7 @@ fxgroup
                 mov o0.xyz, r0.xyzx
                 mov o0.w, r0.w
                 ret 
-                // Approximately 177 instruction slots used
+                // Approximately 243 instruction slots used
                             
             };
         }
