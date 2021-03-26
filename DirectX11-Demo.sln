@@ -42,6 +42,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LitSkullDemo", "LitSkullDem
 		{513FCD34-B8D4-4261-A5D6-8C6DEC2CED12} = {513FCD34-B8D4-4261-A5D6-8C6DEC2CED12}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrateDemo", "CrateDemo\CrateDemo.vcxproj", "{BBBC45B9-0948-44AB-AFE1-6962D9A8F0E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -122,6 +124,14 @@ Global
 		{4885E069-EE94-4035-BB5A-A71FB0D89056}.Release|x64.Build.0 = Release|x64
 		{4885E069-EE94-4035-BB5A-A71FB0D89056}.Release|x86.ActiveCfg = Release|Win32
 		{4885E069-EE94-4035-BB5A-A71FB0D89056}.Release|x86.Build.0 = Release|Win32
+		{BBBC45B9-0948-44AB-AFE1-6962D9A8F0E0}.Debug|x64.ActiveCfg = Debug|x64
+		{BBBC45B9-0948-44AB-AFE1-6962D9A8F0E0}.Debug|x64.Build.0 = Debug|x64
+		{BBBC45B9-0948-44AB-AFE1-6962D9A8F0E0}.Debug|x86.ActiveCfg = Debug|Win32
+		{BBBC45B9-0948-44AB-AFE1-6962D9A8F0E0}.Debug|x86.Build.0 = Debug|Win32
+		{BBBC45B9-0948-44AB-AFE1-6962D9A8F0E0}.Release|x64.ActiveCfg = Release|x64
+		{BBBC45B9-0948-44AB-AFE1-6962D9A8F0E0}.Release|x64.Build.0 = Release|x64
+		{BBBC45B9-0948-44AB-AFE1-6962D9A8F0E0}.Release|x86.ActiveCfg = Release|Win32
+		{BBBC45B9-0948-44AB-AFE1-6962D9A8F0E0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

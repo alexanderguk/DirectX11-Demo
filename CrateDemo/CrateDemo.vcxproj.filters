@@ -15,52 +15,39 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="d3dapp.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="d3dutil.cpp">
+    <ClCompile Include="crateapp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gametimer.cpp">
+    <ClCompile Include="vertex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mathhelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="geometrygenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lighthelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="waves.cpp">
+    <ClCompile Include="effects.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="d3dapp.h">
+    <ClInclude Include="crateapp.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="d3dutil.h">
+    <ClInclude Include="vertex.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="gametimer.h">
+    <ClInclude Include="effects.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="d3dx11effect.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="geometrygenerator.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lighthelper.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="waves.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mathhelper.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FX\lighthelper.fxh">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="FX\basic.fx">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>
