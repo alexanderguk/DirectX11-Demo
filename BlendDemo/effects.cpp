@@ -37,11 +37,33 @@ CBasicEffect::CBasicEffect(ID3D11Device* device, const std::wstring& filename) :
 	m_light2TexTech = m_FX->GetTechniqueByName("Light2Tex");
 	m_light3TexTech = m_FX->GetTechniqueByName("Light3Tex");
 
+	m_light0TexAlphaClipTech = m_FX->GetTechniqueByName("Light0TexAlphaClip");
+	m_light1TexAlphaClipTech = m_FX->GetTechniqueByName("Light1TexAlphaClip");
+	m_light2TexAlphaClipTech = m_FX->GetTechniqueByName("Light2TexAlphaClip");
+	m_light3TexAlphaClipTech = m_FX->GetTechniqueByName("Light3TexAlphaClip");
+
+	m_light1FogTech = m_FX->GetTechniqueByName("Light1Fog");
+	m_light2FogTech = m_FX->GetTechniqueByName("Light2Fog");
+	m_light3FogTech = m_FX->GetTechniqueByName("Light3Fog");
+
+	m_light0TexFogTech = m_FX->GetTechniqueByName("Light0TexFog");
+	m_light1TexFogTech = m_FX->GetTechniqueByName("Light1TexFog");
+	m_light2TexFogTech = m_FX->GetTechniqueByName("Light2TexFog");
+	m_light3TexFogTech = m_FX->GetTechniqueByName("Light3TexFog");
+
+	m_light0TexAlphaClipFogTech = m_FX->GetTechniqueByName("Light0TexAlphaClipFog");
+	m_light1TexAlphaClipFogTech = m_FX->GetTechniqueByName("Light1TexAlphaClipFog");
+	m_light2TexAlphaClipFogTech = m_FX->GetTechniqueByName("Light2TexAlphaClipFog");
+	m_light3TexAlphaClipFogTech = m_FX->GetTechniqueByName("Light3TexAlphaClipFog");
+
 	m_worldViewProj = m_FX->GetVariableByName("g_worldViewProj")->AsMatrix();
 	m_world = m_FX->GetVariableByName("g_world")->AsMatrix();
 	m_worldInvTranspose = m_FX->GetVariableByName("g_worldInvTranspose")->AsMatrix();
 	m_texTransform = m_FX->GetVariableByName("g_texTransform")->AsMatrix();
 	m_eyePosW = m_FX->GetVariableByName("g_eyePosW")->AsVector();
+	m_fogColor = m_FX->GetVariableByName("g_fogColor")->AsVector();
+	m_fogStart = m_FX->GetVariableByName("g_fogStart")->AsScalar();
+	m_fogRange = m_FX->GetVariableByName("g_fogRange")->AsScalar();
 	m_dirLights = m_FX->GetVariableByName("g_dirLights");
 	m_mat = m_FX->GetVariableByName("g_material");
 	m_diffuseMap = m_FX->GetVariableByName("g_diffuseMap")->AsShaderResource();
@@ -75,6 +97,21 @@ void CBasicEffect::setTexTransform(CXMMATRIX M)
 void CBasicEffect::setEyePosW(const XMFLOAT3& v)
 {
 	m_eyePosW->SetRawValue(&v, 0, sizeof(v));
+}
+
+void CBasicEffect::setFogColor(const FXMVECTOR v)
+{
+	m_fogColor->SetFloatVector(reinterpret_cast<const float*>(&v));
+}
+
+void CBasicEffect::setFogStart(float f)
+{
+	m_fogStart->SetFloat(f);
+}
+
+void CBasicEffect::setFogRange(float f)
+{
+	m_fogRange->SetFloat(f);
 }
 
 void CBasicEffect::setDirLights(const SDirectionalLight* lights)

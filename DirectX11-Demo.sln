@@ -52,6 +52,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TexturedHillsAndWavesDemo",
 		{513FCD34-B8D4-4261-A5D6-8C6DEC2CED12} = {513FCD34-B8D4-4261-A5D6-8C6DEC2CED12}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BlendDemo", "BlendDemo\BlendDemo.vcxproj", "{439777EC-B43C-40E5-A25A-44455097B861}"
+	ProjectSection(ProjectDependencies) = postProject
+		{513FCD34-B8D4-4261-A5D6-8C6DEC2CED12} = {513FCD34-B8D4-4261-A5D6-8C6DEC2CED12}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -148,6 +153,14 @@ Global
 		{9045A1BC-F029-409E-B761-337737066FC5}.Release|x64.Build.0 = Release|x64
 		{9045A1BC-F029-409E-B761-337737066FC5}.Release|x86.ActiveCfg = Release|Win32
 		{9045A1BC-F029-409E-B761-337737066FC5}.Release|x86.Build.0 = Release|Win32
+		{439777EC-B43C-40E5-A25A-44455097B861}.Debug|x64.ActiveCfg = Debug|x64
+		{439777EC-B43C-40E5-A25A-44455097B861}.Debug|x64.Build.0 = Debug|x64
+		{439777EC-B43C-40E5-A25A-44455097B861}.Debug|x86.ActiveCfg = Debug|Win32
+		{439777EC-B43C-40E5-A25A-44455097B861}.Debug|x86.Build.0 = Debug|Win32
+		{439777EC-B43C-40E5-A25A-44455097B861}.Release|x64.ActiveCfg = Release|x64
+		{439777EC-B43C-40E5-A25A-44455097B861}.Release|x64.Build.0 = Release|x64
+		{439777EC-B43C-40E5-A25A-44455097B861}.Release|x86.ActiveCfg = Release|Win32
+		{439777EC-B43C-40E5-A25A-44455097B861}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

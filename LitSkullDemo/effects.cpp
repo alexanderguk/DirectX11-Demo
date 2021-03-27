@@ -34,7 +34,7 @@ CBasicEffect::CBasicEffect(ID3D11Device* device, const std::wstring& filename) :
 	m_worldViewProj = m_FX->GetVariableByName("g_worldViewProj")->AsMatrix();
 	m_world = m_FX->GetVariableByName("g_world")->AsMatrix();
 	m_worldInvTranspose = m_FX->GetVariableByName("g_worldInvTranspose")->AsMatrix();
-	m_eyePosW = m_FX->GetVariableByName("m_eyePosW")->AsVector();
+	m_eyePosW = m_FX->GetVariableByName("g_eyePosW")->AsVector();
 	m_dirLights = m_FX->GetVariableByName("g_dirLights");
 	m_mat = m_FX->GetVariableByName("g_material");
 }
