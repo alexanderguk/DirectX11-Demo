@@ -3,6 +3,8 @@
 #include "../Common/d3dapp.h"
 #include "../Common/lighthelper.h"
 
+#include <vector>
+
 using namespace DirectX;
 
 class CCrateApp : public CD3DApp
@@ -29,7 +31,8 @@ protected:
 	ComPtr<ID3D11Buffer> m_boxVB;
 	ComPtr<ID3D11Buffer> m_boxIB;
 
-	ComPtr<ID3D11ShaderResourceView> m_diffuseMapSRV;
+	std::vector<ComPtr<ID3D11ShaderResourceView>> m_fireMapSRVs;
+	ComPtr<ID3D11ShaderResourceView> m_fireMapSRV;
 
 	SDirectionalLight m_dirLights[3];
 	SMaterial m_boxMat;

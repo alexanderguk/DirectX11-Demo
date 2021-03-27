@@ -39,6 +39,16 @@ UINT CWaves::getTriangleCount() const
 	return m_triangleCount;
 }
 
+float CWaves::getWidth() const
+{
+	return m_numCols * m_spatialStep;
+}
+
+float CWaves::getDepth() const
+{
+	return m_numRows * m_spatialStep;
+}
+
 const DirectX::XMFLOAT3& CWaves::operator[](int i) const
 {
 	return m_currSolution[i];

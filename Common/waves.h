@@ -16,6 +16,8 @@ public:
 	UINT getColumnCount() const;
 	UINT getVertexCount() const;
 	UINT getTriangleCount() const;
+	float getWidth() const;
+	float getDepth() const;
 
 	const XMFLOAT3& operator[](int i) const;
 

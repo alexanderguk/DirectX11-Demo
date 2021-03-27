@@ -2,8 +2,11 @@
 
 #include <fstream>
 #include <array>
+#include <sstream>
+#include <iomanip>
 #include <DirectXColors.h>
 #include "DDSTextureLoader.h"
+#include "WICTextureLoader.h"
 
 #include "../Common/mathhelper.h"
 #include "../Common/geometrygenerator.h"
@@ -64,12 +67,22 @@ bool CCrateApp::initialize()
 	CEffects::initAll(m_d3dDevice.Get());
 	CInputLayouts::initAll(m_d3dDevice.Get());
 
-	ThrowIfFailed(CreateDDSTextureFromFile(
-		m_d3dDevice.Get(),
-		L"Textures/WoodCrate01.dds",
-		nullptr,
-		m_diffuseMapSRV.GetAddressOf()
-	));
+	m_fireMapSRVs.resize(120);
+	for (int i = 1; i <= 120; ++i)
+	{
+		std::wstringstream ss;
+		ss << std::setw(3) << std::setfill(L'0') << i;
+		std::wstring s = ss.str();
+
+		std::wstring filename = L"FireAnim/Fire" + s + L".bmp";
+
+		ThrowIfFailed(CreateWICTextureFromFile(
+			m_d3dDevice.Get(),
+			filename.c_str(),
+			nullptr,
+			m_fireMapSRVs[i - 1].GetAddressOf()
+		));
+	}
 
 	buildGeometryBuffers();
 
@@ -90,6 +103,20 @@ void CCrateApp::update(const CGameTimer& timer)
 
 	XMMATRIX V = XMMatrixLookAtLH(pos, target, up);
 	XMStoreFloat4x4(&m_view, V);
+
+	const float frameTime = 1.0f / 30.0f;
+	const float totalAnimTime = 4.0f;
+
+	static float currAnimTime = 0.0f;
+	currAnimTime += timer.getDeltaTime();
+	if (currAnimTime > totalAnimTime)
+	{
+		currAnimTime -= totalAnimTime;
+	}
+
+	const int currAnimFrame = currAnimTime / totalAnimTime * 120;
+
+	m_fireMapSRV = m_fireMapSRVs[currAnimFrame];
 }
 
 void CCrateApp::draw(const CGameTimer& timer)
@@ -144,7 +171,7 @@ void CCrateApp::draw(const CGameTimer& timer)
 		CEffects::ms_basicFX->setWorldViewProj(worldViewProj);
 		CEffects::ms_basicFX->setTexTransform(XMLoadFloat4x4(&m_texTransform));
 		CEffects::ms_basicFX->setMaterial(m_boxMat);
-		CEffects::ms_basicFX->setDiffuseMap(m_diffuseMapSRV.Get());
+		CEffects::ms_basicFX->setDiffuseMap(m_fireMapSRV.Get());
 
 		activeTech->GetPassByIndex(p)->Apply(0, m_d3dImmediateContext.Get());
 		m_d3dImmediateContext->DrawIndexed(
@@ -159,7 +186,7 @@ void CCrateApp::onResize()
 	CD3DApp::onResize();
 
 	XMMATRIX P = XMMatrixPerspectiveFovLH(
-		XM_PIDIV4, getAspectRatio(), 1.0f, 1000.0f
+		XM_PIDIV4, getAspectRatio(), 0.1f, 1000.0f
 	);
 	XMStoreFloat4x4(&m_proj, P);
 }
